@@ -4,12 +4,10 @@ on:
   push:
     branches:
       - infra
-
 env:
   TF_VERSION: 1.10.5
   DESTROY: false
   ENVIRONMENT: prod
-
 jobs:
   terraform:
     name: 'Deploy Infra'
@@ -31,14 +29,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Terraform-docs | Generate documentation
-      uses: terraform-docs/gh-actions@v1.3.0
-      with:
-        working-dir: ./infra
-        output-file: README.md
-        output-method: inject
-        git-push: "true"
 
     - name: Terraform | Check required version
       run: |
@@ -69,6 +59,11 @@ jobs:
           }" >> provider.tf
           cat provider.tf
 
+    # - name: Render terraform docs inside the README.md and push changes back to PR branch
+    #   uses: terraform-docs/gh-actions@v1.3.0
+    #   with:
+    #     working-dir: ./infra
+
     - name: Terraform | Initialize backend
       run: terraform init
 
@@ -88,7 +83,6 @@ jobs:
       name: Setup TFLint
       with:
         tflint_version: v0.52.0
-
     - name: Show version
       run: tflint --version
 
@@ -112,14 +106,6 @@ jobs:
     - name: Terraform | Show to json file
       run: terraform show -json tfplan.binary > plan.json
 
-    - name: Infracost | Setup
-      uses: infracost/actions/setup@v3
-      with:
-        api-key: ${{ secrets.INFRACOST_API_KEY }}
-
-    - name: Infracost | Generate JSON
-      run: infracost breakdown --path plan.json
-
     - name: Terraform Destroy
       if: env.DESTROY == 'true'
       run: terraform destroy -auto-approve -input=false
@@ -127,14 +113,3 @@ jobs:
     - name: Terraform Creating and Update
       if: env.DESTROY != 'true'
       run: terraform apply -auto-approve -input=false
-
-   - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: deploy-build
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_ICON: https://cdn2.iconfinder.com/data/icons/font-awesome/1792/github-512.png?size=48
-        SLACK_MESSAGE: 'Deploy infra executado! :rocket:'
-        SLACK_TITLE: Foi realizado o deploy da infraestrutura
-        SLACK_USERNAME: Deploy Infra
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
