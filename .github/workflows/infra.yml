@@ -29,6 +29,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: ${{ secrets.AWS_REGION }}
+        
+    - name: Terraform-docs | Generate documentation
+      uses: terraform-docs/gh-actions@v1.3.0
+      with:
+        working-dir: ./infra
+        output-file: README.md
+        output-method: inject
+        git-push: "true"
 
     - name: Terraform | Check required version
       run: |
