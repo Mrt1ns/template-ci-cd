@@ -30,9 +30,9 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Nome do cluster ECS | `string` | `"app-prod-v2"` | no |
-| <a name="input_subnets_id"></a> [subnets\_id](#input\_subnets\_id) | Subnets IDs | `list(string)` | <pre>[<br/>  "subnet-04774a57d61b370b3",<br/>  "subnet-08f4cb9f89b5b8983",<br/>  "subnet-0f2c78096c7b50445"<br/>]</pre> | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID | `string` | `"app-prod-v2"` | no |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Nome do cluster ECS | `string` | n/a | yes |
+| <a name="input_subnets_id"></a> [subnets\_id](#input\_subnets\_id) | Subnets IDs | `list(string)` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID | `string` | n/a | yes |
 
 ## Outputs
 
