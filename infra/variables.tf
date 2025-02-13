@@ -1,12 +1,14 @@
-resource "aws_ecs_cluster" "example" {
-  name = var.cluster_name
+variable "cluster_name" {
+  description = "Nome do cluster ECS"
+  type        = string
 }
 
-resource "aws_vpc" "example" {
-  id = var.vpc_id
+variable "subnets_id" {
+  description = "Subnets IDs"
+  type        = list(string)
 }
 
-resource "aws_subnet" "example" {
-  for_each = toset(var.subnets_id)
-  id       = each.value
+variable "vpc_id" {
+  description = "VPC ID"
+  type        = string
 }
