@@ -37,7 +37,18 @@ jobs:
         output-file: README.md
         output-method: inject
         git-push: "true"
-
+        
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: deploy-build
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://cdn2.iconfinder.com/data/icons/font-awesome/1792/github-512.png?size=48
+        SLACK_MESSAGE: 'Deploy infra executado! :rocket:'
+        SLACK_TITLE: Foi realizado o deploy da infraestrutura
+        SLACK_USERNAME: Deploy Infra
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        
     - name: Terraform | Check required version
       run: |
         if [ -f versions.tf ];
