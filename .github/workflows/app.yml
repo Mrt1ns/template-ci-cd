@@ -3,7 +3,7 @@ name: DevOpsLab Pipeline
 on:
   push:
     branches:
-      - main
+      - infra
 env:
   IMAGE_NAME: ci-cd-app
   TAG_APP: v1.0.0
@@ -64,7 +64,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL'
+          severity: 'CRITICAL,HIGH'
 
       - name: Push image
         run: |
