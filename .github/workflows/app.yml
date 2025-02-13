@@ -3,7 +3,7 @@ name: DevOpsLab Pipeline
 on:
   push:
     branches:
-      - infra
+      - main
 env:
   IMAGE_NAME: ci-cd-app
   TAG_APP: v1.0.0
